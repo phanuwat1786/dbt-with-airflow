@@ -12,7 +12,8 @@ with DAG(
     dag_id = 'get_exchange_rate',
     start_date= pendulum.parse('2025-10-14'),
     schedule= '5 * * * *',
-    catchup = False
+    catchup = False,
+    max_active_runs = 1
 ) as dag:
 
     def check_status(response):

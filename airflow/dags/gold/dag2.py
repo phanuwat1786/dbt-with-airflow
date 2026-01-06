@@ -11,7 +11,8 @@ with DAG(
     dag_id = 'get_gold_price_2',
     start_date= pendulum.parse('2025-10-13',tz = 'Asia/Bangkok'),
     schedule='5 17,20,21 * * *',
-    catchup=False
+    catchup=False,
+    max_active_runs = 1
 ):
     def check_status(response):
         try:
