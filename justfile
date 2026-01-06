@@ -19,3 +19,11 @@ up-pg: create-docker-network
 
 down-pg: 
     - docker compose -f db/postgres/docker-compose.yml down
+
+up-minio: create-docker-network
+    - docker compose -f MinIO/docker-compose.yml up -d
+
+down-minio:
+    - docker compose -f MinIO/docker-compose.yml down
+
+down-all: down-airflow down-pg down-minio
