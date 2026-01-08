@@ -213,3 +213,11 @@ __marimo__/
 airflow/config/
 airflow/logs/
 airflow/plugins/
+
+# notebook
+*.ipynb
+
+# dbt
+dbt/projects
+dbt/logs
+

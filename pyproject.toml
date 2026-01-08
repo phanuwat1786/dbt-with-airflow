@@ -6,4 +6,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "apache-airflow==2.10.5",
+    "apache-airflow-providers-docker>=4.4.5",
+    "duckdb>=1.4.3",
+    "ipykernel>=7.1.0",
 ]

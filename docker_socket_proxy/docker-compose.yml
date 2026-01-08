@@ -1,0 +1,14 @@
+services:
+  docker-proxy:
+    image: alpine/socat:1.8.0.3
+    command: "TCP4-LISTEN:2375,fork,reuseaddr UNIX-CONNECT:/var/run/docker.sock"
+    expose:
+      - "2375"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - pipeline-network
+
+networks:
+  pipeline-network:
+    external: true
