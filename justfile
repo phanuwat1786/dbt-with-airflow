@@ -29,6 +29,9 @@ down-minio:
 up-socket-proxy: create-docker-network
     - docker compose -f docker_socket_proxy/docker-compose.yml up -d
 
-up-all: up-airflow up-pg up-minio
+down-socket-proxy:
+    - docker compose -f docker_socket_proxy/docker-compose.yml down
 
-down-all: down-airflow down-pg down-minio
+up-all: up-socket-proxy up-airflow up-pg up-minio 
+
+down-all: down-socket-proxy down-airflow down-pg down-minio
