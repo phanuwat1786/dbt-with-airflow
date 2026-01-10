@@ -218,6 +218,6 @@ airflow/plugins/
 *.ipynb
 
 # dbt
-dbt/projects
-dbt/logs
+# dbt/projects
+# dbt/logs
 

@@ -7,6 +7,10 @@ requires-python = ">=3.10"
 dependencies = [
     "apache-airflow==2.10.5",
     "apache-airflow-providers-docker>=4.4.5",
+    "apache-airflow-providers-postgres>=6.4.1",
     "duckdb>=1.4.3",
+    "google-auth>=2.47.0",
+    "gspread-pandas>=3.3.0",
     "ipykernel>=7.1.0",
+    "pandas>=2.3.3",
 ]
