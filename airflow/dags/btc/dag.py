@@ -46,7 +46,7 @@ with DAG(
         pg_hook = PostgresHook(
             postgres_conn_id = 'pg_market_price'
         )
-        df.to_sql(name = 'bitcoin',con = pg_hook.get_sqlalchemy_engine(),index = False,if_exists = 'append')
+        df.to_sql(name = 'bitcoin',con = pg_hook.get_sqlalchemy_engine(),index = False,if_exists = 'append',schema='raw')
 
     t2 =  save_bitcoin_price()
     t1 >> t2
