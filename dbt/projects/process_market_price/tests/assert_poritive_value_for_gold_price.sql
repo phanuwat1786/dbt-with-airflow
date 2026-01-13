@@ -1,0 +1,1 @@
+SELECT price from {{ ref("stg_convert_gold_timestamp") }} WHERE price < 0

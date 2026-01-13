@@ -1,9 +1,9 @@
 WITH 
     gold AS (
-        SELECT * FROM {{ ref("st_convert_gold_timestamp") }}
+        SELECT * FROM {{ ref("stg_convert_gold_timestamp") }}
     ),
     btc AS (
-        SELECT * FROM {{ ref("st_select_btc") }}
+        SELECT * FROM {{ ref("stg_select_btc") }}
     )
 
 SELECT * FROM gold 

@@ -1,0 +1,17 @@
+
+models:
+  - name: btc_and_gold_price
+    columns:
+      - name: type
+        description: "{{ doc('type') }}"
+        data_tests:
+          - accepted_values:
+                values: ['btc','gold']
+      - name: price
+        description: price of btc.
+      - name: currency
+        description: currency of price.
+      - name: unit
+        description: unit of this asset per price.
+      - name: timestamp
+        description: Timestamp converted from unix timestamp.

@@ -1,7 +1,7 @@
 sources:
   - name: market_price
     database: market_price
-    schema: public
+    schema: raw
     tables:
       - name: bitcoin
         config:
