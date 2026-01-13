@@ -26,10 +26,17 @@ with DAG(
         task_id = 'run_dbt',
         image = 'ghcr.io/dbt-labs/dbt-postgres:1.9.0',
         mounts= [
-            Mount(source='//c/Users/ASUS/OneDrive/learning/de_project/dbt-with-airflow/dbt/projects/process_market_price', target='/usr/app/dbt/process_market_price', type= 'bind')
+            Mount(source="{{ var.value.process_market_price_dbt_mount_path }}", target='/usr/app/dbt/process_market_price', type= 'bind')
         ],
+        environment= {
+            'DBT_DBNAME' : "{{ conn.pg_market_price.schema }}",
+            'DBT_USER' : "{{ conn.pg_market_price.login }}",
+            'DBT_HOST' : "{{ conn.pg_market_price.host }}",
+            'DBT_PASS' : "{{ conn.pg_market_price.password }}",
+            'DBT_PORT' : "{{ conn.pg_market_price.port }}"
+        },
         entrypoint= 'dbt',
-        command= ["run","--project-dir","/usr/app/dbt/process_market_price","--profiles-dir","/usr/app/dbt/process_market_price"],
+        command= ["build","--project-dir","/usr/app/dbt/process_market_price","--profiles-dir","/usr/app/dbt/process_market_price"],
         docker_url= 'tcp://docker-proxy:2375',
         network_mode= 'pipeline-network',
         mount_tmp_dir=False,
@@ -43,7 +50,7 @@ with DAG(
         )
 
         df = pd.read_sql(
-            sql = f'SELECT * FROM btc_and_gold_price',
+            sql = f'SELECT * FROM fact.btc_and_gold_price',
             con = pg_hook.get_sqlalchemy_engine()
         )
 
