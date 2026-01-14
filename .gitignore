@@ -213,11 +213,11 @@ __marimo__/
 airflow/config/
 airflow/logs/
 airflow/plugins/
+airflow/dags/other_dags
 
 # notebook
 *.ipynb
 
-# dbt
-# dbt/projects
+dbt
+dbt/projects/other_projects
 # dbt/logs
-
