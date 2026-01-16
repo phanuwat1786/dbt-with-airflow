@@ -9,7 +9,9 @@ import json
 import pandas as pd
 import pendulum
 from airflow.providers.postgres.hooks.postgres import PostgresHook
-from datahub_airflow_plugin.entities import Dataset, Urn
+from airflow.datasets import Dataset
+from datahub_airflow_plugin.entities import Dataset as DatasetDH, Urn
+
 
 with DAG(
     dag_id='bitcoin_price',
@@ -29,13 +31,14 @@ with DAG(
         do_xcom_push = True,
         log_response = True,
         inlets = [
-            Dataset(platform = 'RestAPI', name = 'coindeskAPI')
+            DatasetDH(platform = 'RestAPI', name = 'coindeskAPI')
         ]
     )
 
     @task(
         outlets = [
-            Dataset(platform = "postgres",name = "market_price.public.bitcoin")
+            DatasetDH(platform = "postgres",name = "market_price.public.bitcoin"),
+            Dataset("x-market-price://bitcoin"),
         ],
     )
     def save_bitcoin_price():

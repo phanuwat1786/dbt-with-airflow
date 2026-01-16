@@ -8,12 +8,12 @@ import pandas as pd
 from airflow.models import Variable
 from gspread_pandas import Spread
 from google.oauth2 import service_account
-
+from airflow.datasets import Dataset
 
 with DAG(
     dag_id = 'summary_and_export_v1',
     start_date= pendulum.parse('2026-01-08',tz = 'Asia/Bangkok'),
-    schedule= None,
+    schedule= [Dataset(uri = 'x-market-price://bitcoin'), Dataset(uri = 'x-market-price://gold')],
     catchup=False,
     max_active_runs= 1
 ) as dag :

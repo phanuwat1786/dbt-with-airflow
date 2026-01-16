@@ -4,7 +4,8 @@ import pendulum
 from airflow.providers.http.operators.http import HttpOperator
 from airflow.operators.python import get_current_context
 from airflow.providers.amazon.aws.operators.s3 import S3CreateBucketOperator
-from datahub_airflow_plugin.entities import Dataset, Urn
+from airflow.datasets import Dataset
+from datahub_airflow_plugin.entities import Dataset as DatasetDH, Urn
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 
 with DAG(
@@ -35,13 +36,14 @@ with DAG(
         do_xcom_push = True,
         log_response=True,
         inlets = [
-            Dataset(platform = 'RestAPI', name = 'goldAPI.io')
+            DatasetDH(platform = 'RestAPI', name = 'goldAPI.io')
         ]
     )
 
     @task(
         outlets = [
-            Dataset(platform = "postgres",name = "market_price.public.gold",env = 'PROD')
+            DatasetDH(platform = "postgres",name = "market_price.public.gold",env = 'PROD'),
+            Dataset(uri = 'x-market-price://gold')
         ]
     )
     def save_gold_price():
