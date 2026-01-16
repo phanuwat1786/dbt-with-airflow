@@ -10,6 +10,8 @@ up-airflow: create-docker-network
 down-airflow:
     - docker compose -f airflow/docker-compose.yml down
 
+restart-airflow: down-airflow up-airflow
+
 clean-airflow: down-airflow
     - docker network remove pipeline-network
     - docker volume rm -f airflow_postgres-db-airflow

@@ -212,7 +212,6 @@ __marimo__/
 # Airflow
 airflow/config/
 airflow/logs/
-airflow/plugins/
 airflow/dags/other_dags
 
 # notebook
