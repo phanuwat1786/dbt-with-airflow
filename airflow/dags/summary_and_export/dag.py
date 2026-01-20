@@ -15,7 +15,9 @@ with DAG(
     start_date= pendulum.parse('2026-01-08',tz = 'Asia/Bangkok'),
     schedule= [Dataset(uri = 'x-market-price://bitcoin'), Dataset(uri = 'x-market-price://gold')],
     catchup=False,
-    max_active_runs= 1
+    max_active_runs= 1,
+    tags=['MarketPrice'],
+    owner_links={"Phanu","https://git.inet.co.th/phanuwat.su"}
 ) as dag :
     
     @task()
