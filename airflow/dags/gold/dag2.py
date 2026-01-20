@@ -42,7 +42,7 @@ with DAG(
 
     @task(
         outlets = [
-            DatasetDH(platform = "postgres",name = "market_price.public.gold",env = 'PROD'),
+            DatasetDH(platform = "postgres",name = "market_price.raw.gold",env = 'PROD'),
             Dataset(uri = 'x-market-price://gold')
         ]
     )

@@ -68,4 +68,4 @@ with DAG(
                                 replace=True)
 
     t3 = save_exchange_rate()
-    t1 >> t2 >> t3
+    [t1,t2] >> t3

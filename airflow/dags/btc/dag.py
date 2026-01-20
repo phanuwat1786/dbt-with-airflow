@@ -37,7 +37,7 @@ with DAG(
 
     @task(
         outlets = [
-            DatasetDH(platform = "postgres",name = "market_price.public.bitcoin"),
+            DatasetDH(platform = "postgres",name = "market_price.raw.bitcoin"),
             Dataset("x-market-price://bitcoin"),
         ],
     )
