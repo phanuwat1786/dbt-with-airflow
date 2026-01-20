@@ -34,6 +34,15 @@ up-socket-proxy: create-docker-network
 down-socket-proxy:
     - docker compose -f docker_socket_proxy/docker-compose.yml down
 
-up-all: up-socket-proxy up-airflow up-pg up-minio 
+up-datahub: create-docker-network
+    - datahub docker quickstart --quickstart-compose-file datahub/docker-compose.yml
 
-down-all: down-socket-proxy down-airflow down-pg down-minio
+down-datahub:
+    - docker compose -f datahub/docker-compose.yml down 
+
+ingest-dbt file:
+    datahub ingest -c datahub/ingestion_recipe/{{file}}
+
+up-all: up-socket-proxy up-airflow up-pg up-minio up-datahub
+
+down-all: down-socket-proxy down-airflow down-pg down-minio down-datahub
