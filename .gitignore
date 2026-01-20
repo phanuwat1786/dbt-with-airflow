@@ -217,6 +217,6 @@ airflow/dags/other_dags
 # notebook
 *.ipynb
 
-dbt
+# dbt
 dbt/projects/other_projects
 # dbt/logs

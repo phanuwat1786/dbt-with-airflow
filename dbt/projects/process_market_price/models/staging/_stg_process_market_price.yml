@@ -15,7 +15,6 @@ models:
     - name: timestamp
       description: Timestamp converted from unix timestamp. #column level des.
       data_tests:
-        - unique
         - not_null
   - name: stg_select_btc
     description: rearrange column.

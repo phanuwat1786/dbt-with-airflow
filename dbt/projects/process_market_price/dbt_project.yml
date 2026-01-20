@@ -31,6 +31,10 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   process_market_price:
+    +meta:
+      owner: "@Phanu"
+      workgroup: "Market Price"
+      ba: "@MR.BA"
     # Config indicated by + and applies to all files under models/example/
     staging:
       +materialized: view

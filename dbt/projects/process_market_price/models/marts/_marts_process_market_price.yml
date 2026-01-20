@@ -1,6 +1,7 @@
 
 models:
   - name: btc_and_gold_price
+    description : "contian summary price of btc and gold"
     columns:
       - name: type
         description: "{{ doc('type') }}"
