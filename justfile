@@ -1,6 +1,9 @@
 default:
     just --list
 
+myps:
+    docker ps --format "table {{{{.Names}}\t{{{{.Status}}\t{{{{.Ports}}"
+
 create-docker-network:
     - docker network create -d bridge pipeline-network
 
