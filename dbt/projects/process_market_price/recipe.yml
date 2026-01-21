@@ -1,0 +1,31 @@
+source:
+  type: dbt
+  config: 
+    manifest_path: "./target/manifest.json"
+    catalog_path: "./target/catalog.json"
+    sources_path: "./target/sources.json"
+    run_results_paths:
+      - "./target/run_results.json"
+
+    target_platform: "postgres"
+    meta_mapping:
+      owner:
+        match: "^@(.*)"
+        operation: "add_owner"
+        config:
+          owner_type : user
+      workgroup:
+        match: ".*"
+        operation: add_tag
+        config: 
+          tag: "{{ $match }}"
+      ba:
+        match: "^@(.*)"
+        operation: add_tag
+        config:
+          tag: "BA_{{ $match }}"
+
+sink:
+  type: datahub-rest
+  config: 
+    server: http://datahub-gms:8080 
