@@ -61,7 +61,7 @@ with DAG(
             'DBT_PORT' : "{{ conn.pg_market_price.port }}"
         },
         entrypoint= 'dbt',
-        command= "source --project-dir /usr/app/dbt/process_market_price --profiles-dir /usr/app/dbt/process_market_price freshness",
+        command= "source freshness --project-dir /usr/app/dbt/process_market_price --profiles-dir /usr/app/dbt/process_market_price",
         docker_url= 'tcp://docker-proxy:2375',
         network_mode= 'pipeline-network',
         mount_tmp_dir=False,
