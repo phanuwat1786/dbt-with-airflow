@@ -48,7 +48,7 @@ with DAG(
     )
 
     t_check_source_freshness = DockerOperator(
-        task_id = 'generate_dbt_docs',
+        task_id = 'check_source_freshness',
         image = 'ghcr.io/dbt-labs/dbt-postgres:1.9.0',
         mounts= [
             Mount(source="{{ var.value.process_market_price_dbt_mount_path }}", target='/usr/app/dbt/process_market_price', type= 'bind')
