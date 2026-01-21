@@ -47,6 +47,27 @@ with DAG(
         auto_remove='force'
     )
 
+    t_check_source_freshness = DockerOperator(
+        task_id = 'generate_dbt_docs',
+        image = 'ghcr.io/dbt-labs/dbt-postgres:1.9.0',
+        mounts= [
+            Mount(source="{{ var.value.process_market_price_dbt_mount_path }}", target='/usr/app/dbt/process_market_price', type= 'bind')
+        ],
+        environment= {
+            'DBT_DBNAME' : "{{ conn.pg_market_price.schema }}",
+            'DBT_USER' : "{{ conn.pg_market_price.login }}",
+            'DBT_HOST' : "{{ conn.pg_market_price.host }}",
+            'DBT_PASS' : "{{ conn.pg_market_price.password }}",
+            'DBT_PORT' : "{{ conn.pg_market_price.port }}"
+        },
+        entrypoint= 'dbt',
+        command= "source --project-dir /usr/app/dbt/process_market_price --profiles-dir /usr/app/dbt/process_market_price freshness",
+        docker_url= 'tcp://docker-proxy:2375',
+        network_mode= 'pipeline-network',
+        mount_tmp_dir=False,
+        auto_remove='force'
+    )
+
     t_run_dbt = DockerOperator(
         task_id = 'run_dbt',
         image = 'ghcr.io/dbt-labs/dbt-postgres:1.9.0',
@@ -106,5 +127,5 @@ with DAG(
     t_export_to_ggs = export_to_ggs(data = t_get_data_to_export)
     end = end()
 
-    start >> t_generate_dbt_doc >> t_run_dbt >> end
+    start >> t_generate_dbt_doc >> t_check_source_freshness >> t_run_dbt >> end
     t_run_dbt >> t_get_data_to_export >> t_export_to_ggs >> end
