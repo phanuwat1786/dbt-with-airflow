@@ -15,7 +15,9 @@ with DAG(
     catchup=False,
     max_active_runs = 1,
     tags=['MarketPrice'],
-    owner_links={"Phanu","https://git.inet.co.th/phanuwat.su"}
+    default_args= {
+        'owner' : "Phanu"
+    }
 ):
     def check_status(response):
         try:
