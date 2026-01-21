@@ -65,7 +65,10 @@ with DAG(
         docker_url= 'tcp://docker-proxy:2375',
         network_mode= 'pipeline-network',
         mount_tmp_dir=False,
-        auto_remove='force'
+        auto_remove='force',
+        outlets = [
+            Dataset(uri = 'x-market-price://ingestion')
+        ]
     )
 
     @task()

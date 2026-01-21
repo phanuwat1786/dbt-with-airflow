@@ -3,10 +3,11 @@ from airflow.decorators import task
 import pendulum
 from airflow.providers.docker.operators.docker import DockerOperator
 from docker.types import Mount
+from airflow.datasets import Dataset
 with DAG(
     dag_id= 'datahub_ingestion_dbt_market_price',
     start_date= pendulum.parse('2026-01-21',tz = 'Asia/Bangkok'),
-    schedule= None,
+    schedule= [Dataset(uri = 'x-market-price://ingestion')],
     catchup= False,
     tags= [
         'datahub_ingestion','dbt'
