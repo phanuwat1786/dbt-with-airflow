@@ -54,7 +54,7 @@ with DAG(
         @task(
             map_index_template = "{{ worksheet_name }}",
             outlets = [
-                  DatasetDH(platform="GoogleSheet",name = "MarketPrice")
+                  DatasetDH(platform="GoogleSheet",name = "Google Sheet 'MarketPrice'")
               ]
             )
         def export_to_ggs(export_table: dict,data):
