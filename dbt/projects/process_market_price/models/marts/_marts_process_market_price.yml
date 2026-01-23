@@ -1,13 +1,12 @@
-
 models:
   - name: btc_and_gold_price
-    description : "contian summary price of btc and gold"
+    description: "contian summary price of btc and gold"
     columns:
       - name: type
         description: "{{ doc('type') }}"
         data_tests:
           - accepted_values:
-                values: ['btc','gold']
+              values: [ 'btc', 'gold' ]
       - name: price
         description: price of btc.
       - name: currency
@@ -16,3 +15,14 @@ models:
         description: unit of this asset per price.
       - name: timestamp
         description: Timestamp converted from unix timestamp.
+  - name: btc_last_24hr
+    description: "price of btc per hour for last 24 hour"
+    columns:
+      - name: price
+        description: price of btc.
+      - name: currency
+        description: currency of price.
+      - name: unit
+        description: unit of this asset per price.
+      - name: timestamp
+        description: Timestamp converted from unix timestamp rounded to minute 0 each hour.
