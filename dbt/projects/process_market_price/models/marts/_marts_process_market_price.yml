@@ -26,3 +26,14 @@ models:
         description: unit of this asset per price.
       - name: timestamp
         description: Timestamp converted from unix timestamp rounded to minute 0 each hour.
+  - name: gold_price_hr
+    description: "price of btc per hour for last 24 hour"
+    columns:
+      - name: price
+        description: price of gold.
+      - name: currency
+        description: currency of price.
+      - name: unit
+        description: unit of this asset per price.
+      - name: timestamp
+        description: Timestamp converted from unix timestamp rounded to minute 0 each hour.
