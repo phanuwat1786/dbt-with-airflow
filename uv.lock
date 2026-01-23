@@ -107,6 +107,47 @@ dbt = [
     { name = "tabulate" },
     { name = "toml" },
 ]
+sql-parser = [
+    { name = "aiohttp" },
+    { name = "avro" },
+    { name = "avro-gen3" },
+    { name = "cached-property" },
+    { name = "click" },
+    { name = "click-default-group" },
+    { name = "click-spinner" },
+    { name = "deprecated" },
+    { name = "docker" },
+    { name = "expandvars" },
+    { name = "humanfriendly" },
+    { name = "ijson" },
+    { name = "jsonref" },
+    { name = "jsonschema" },
+    { name = "packaging" },
+    { name = "patchy" },
+    { name = "progressbar2" },
+    { name = "psutil" },
+    { name = "python-dateutil" },
+    { name = "pyyaml" },
+    { name = "requests-file" },
+    { name = "ruamel-yaml" },
+    { name = "sqlglot", extra = ["rs"] },
+    { name = "tabulate" },
+    { name = "toml" },
+]
+
+[[package]]
+name = "acryl-datahub-airflow-plugin"
+version = "1.3.1.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "acryl-datahub", extra = ["datahub-rest", "sql-parser"] },
+    { name = "apache-airflow" },
+    { name = "pydantic" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bc/64/072e38d043abb4fce9bf4c2dfcbc70f313fb5286d3fcccd78824fc81c51b/acryl_datahub_airflow_plugin-1.3.1.7.tar.gz", hash = "sha256:5b14f0479b2fc1109a8dedb117492a1b730b8edf004943503d22386d3a4ab1f3", size = 75821, upload-time = "2026-01-15T14:14:50.904Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a8/cd/52aeee25a11c7ca50f1f842cd23b8a93fdf66719c25f5f16bc7609bcaecb/acryl_datahub_airflow_plugin-1.3.1.7-py3-none-any.whl", hash = "sha256:a49c6f85deff347d61952b8efa904ebd4d57ae5e76a743b827335634d9c814f7", size = 107789, upload-time = "2026-01-15T14:14:48.93Z" },
+]
 
 [[package]]
 name = "agate"
@@ -1316,6 +1357,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "acryl-datahub", extra = ["datahub-rest", "dbt"] },
+    { name = "acryl-datahub-airflow-plugin" },
     { name = "apache-airflow" },
     { name = "apache-airflow-providers-docker" },
     { name = "apache-airflow-providers-postgres" },
@@ -1331,6 +1373,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "acryl-datahub", extras = ["datahub-rest", "dbt"], specifier = ">=1.3.1.7" },
+    { name = "acryl-datahub-airflow-plugin", specifier = ">=1.3.1.7" },
     { name = "apache-airflow", specifier = "==2.10.5" },
     { name = "apache-airflow-providers-docker", specifier = ">=4.4.5" },
     { name = "apache-airflow-providers-postgres", specifier = ">=6.4.1" },
