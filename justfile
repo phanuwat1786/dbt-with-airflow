@@ -49,3 +49,6 @@ ingest-dbt file:
 up-all: up-socket-proxy up-airflow up-pg up-minio up-datahub
 
 down-all: down-socket-proxy down-airflow down-pg down-minio down-datahub
+
+env:
+    export $(grep -v '^#' .env | xargs)
