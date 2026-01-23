@@ -15,7 +15,7 @@ models:
         description: unit of this asset per price.
       - name: timestamp
         description: Timestamp converted from unix timestamp.
-  - name: btc_last_24hr
+  - name: btc_price_hr
     description: "price of btc per hour for last 24 hour"
     columns:
       - name: price
