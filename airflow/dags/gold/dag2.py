@@ -11,7 +11,7 @@ from airflow.providers.postgres.hooks.postgres import PostgresHook
 with DAG(
     dag_id = 'get_gold_price_2',
     start_date= pendulum.parse('2025-10-13',tz = 'Asia/Bangkok'),
-    schedule='5 17,20,21 * * *',
+    schedule='5 3,4,5 * * *',
     catchup=False,
     max_active_runs = 1,
     tags=['MarketPrice'],

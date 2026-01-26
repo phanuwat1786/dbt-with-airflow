@@ -9,9 +9,9 @@ from datahub_airflow_plugin.entities import Dataset as DatasetDH, Urn
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 
 with DAG(
-    dag_id = 'get_gold_price',
+    dag_id = 'get_gold_price_3',
     start_date= pendulum.parse('2025-10-13',tz = 'Asia/Bangkok'),
-    schedule='5 0,1,2 * * *',
+    schedule='5 6,7,8 * * *',
     catchup=False,
     max_active_runs = 1,
     tags=['MarketPrice'],
@@ -31,7 +31,7 @@ with DAG(
         http_conn_id='gold_price_api',
         endpoint='/XAU/USD',
         headers={
-        "x-access-token": "{{ var.value.goldprice_api_key }}",
+        "x-access-token": "{{ var.value.gold_price_api_key_3 }}",
         "Content-Type": "application/json"
         },
         method= 'GET',
