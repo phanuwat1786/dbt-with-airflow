@@ -31,7 +31,7 @@ with DAG(
         http_conn_id='gold_price_api',
         endpoint='/XAU/USD',
         headers={
-        "x-access-token": "{{ var.value.goldprice_api_key }}",
+        "x-access-token": "{{ var.value.gold_price_api_key }}",
         "Content-Type": "application/json"
         },
         method= 'GET',
