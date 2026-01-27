@@ -37,3 +37,18 @@ models:
         description: unit of this asset per price.
       - name: timestamp
         description: Timestamp converted from unix timestamp rounded to minute 0 each hour.
+  - name: gold_price_1day_change
+    description: "price at last market close time and current price with calculated one-day-change percentage."
+    columns:
+      - name: close_time
+        description: "previous market close time."
+      - name: closetime_price
+        description: "price at previous market close time."
+      - name: price_timestamp
+        description: "real time stamp of closetime_price."
+      - name: current_price
+        description: "current price."
+      - name: current_price_timestamp
+        description: "current_price_timestamp."
+      - name: one-day-change
+        description: "calculated percentage change of previous merket close price compare to current_price."
