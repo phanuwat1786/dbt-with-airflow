@@ -67,7 +67,6 @@ with DAG(
                     response.raise_for_status()
 
             except Exception as e:
-                logger.info("inside exeption")
                 raise e
 
     @task(
