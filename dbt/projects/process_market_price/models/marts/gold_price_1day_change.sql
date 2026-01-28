@@ -29,4 +29,15 @@ WITH market_close_time as (
             ) as current_price_timestamp 
     )
 
-SELECT *, (current_price-closetime_price)/closetime_price * 100  AS "one-day-change" FROM detail
+SELECT  *,
+        CASE 
+            WHEN "one-day-change" > 0 THEN '#188038'
+            WHEN "one-day-change" < 0 THEN '#D93025'
+            ELSE '#5F6368'
+        END AS font_color,
+        CASE 
+            WHEN "one-day-change" > 0 THEN '#E6F4EA'
+            WHEN "one-day-change" < 0 THEN '#FCE8E6'
+            ELSE '#F1F3F4'
+        END AS bg_color
+        FROM ( SELECT *, (current_price - closetime_price)/closetime_price * 100  AS "one-day-change" FROM detail ) one_daye_change

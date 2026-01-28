@@ -49,6 +49,29 @@ models:
       - name: current_price
         description: "current price."
       - name: current_price_timestamp
-        description: "current_price_timestamp."
+        description: "current price timestamp."
       - name: one-day-change
-        description: "calculated percentage change of previous merket close price compare to current_price."
+        description: "calculated percentage change of previous merket close price compare to current price."
+      - name: font_color
+        description: "color of font in dashbaord"
+      - name: bg_color
+        description: "color of bg in dashboard"
+  - name: btc_1day_change
+    description: "price at last market close time and current price with calculated one-day-change percentage."
+    columns:
+      - name: open_time
+        description: "merket open time."
+      - name: opentime_price
+        description: "price at open time"
+      - name: price_timestamp
+        description: "real time stamp of opentime_price."
+      - name: current_price
+        description: "current price."
+      - name: current_price_timestamp
+        description: "current price timestamp."
+      - name: one-day-change
+        description: "calculated percentage change of open time price compare to current price."
+      - name: font_color
+        description: "color of font in dashbaord"
+      - name: bg_color
+        description: "color of bg in dashboard"
