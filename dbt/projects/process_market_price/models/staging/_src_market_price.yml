@@ -1,25 +1,114 @@
+version: 2
+
 sources:
   - name: market_price
+    description: Raw market price data from external sources
     database: market_price
     schema: raw
     tables:
       - name: bitcoin
+        description: Bitcoin price data
+        columns:
+          - name: usd
+            data_type: double precision
+            description: Bitcoin price in USD
+          - name: thb
+            data_type: double precision
+            description: Bitcoin price in Thai Baht
+          - name: create_at_bi
+            data_type: timestamp with time zone
+            description: Timestamp of data creation
         config:
           freshness:
             warn_after:
-              count: 12
+              count: 2
               period: hour
             error_after:
-              count: 24
+              count: 
               period: hour
           loaded_at_field: create_at_bi
+
       - name: gold
+        description: Gold price data
+        columns:
+          - name: timestamp
+            data_type: bigint
+            description: Unix timestamp of the price record
+          - name: metal
+            data_type: text
+            description: Type of metal (e.g., gold, silver)
+          - name: currency
+            data_type: text
+            description: Currency code for price (e.g., USD, THB)
+          - name: exchange
+            data_type: text
+            description: Exchange or market where price is quoted
+          - name: symbol
+            data_type: text
+            description: Trading symbol for the metal
+          - name: prev_close_price
+            data_type: double precision
+            description: Previous day closing price
+          - name: open_price
+            data_type: double precision
+            description: Opening price for the current period
+          - name: low_price
+            data_type: double precision
+            description: Lowest price in the current period
+          - name: high_price
+            data_type: double precision
+            description: Highest price in the current period
+          - name: open_time
+            data_type: bigint
+            description: Unix timestamp when the period opened
+          - name: price
+            data_type: double precision
+            description: Current market price
+          - name: ch
+            data_type: double precision
+            description: Price change in absolute value
+          - name: chp
+            data_type: double precision
+            description: Price change percentage
+          - name: ask
+            data_type: double precision
+            description: Ask price (seller's price)
+          - name: bid
+            data_type: double precision
+            description: Bid price (buyer's price)
+          - name: price_gram_24k
+            data_type: double precision
+            description: Price per gram for 24-karat gold
+          - name: price_gram_22k
+            data_type: double precision
+            description: Price per gram for 22-karat gold
+          - name: price_gram_21k
+            data_type: double precision
+            description: Price per gram for 21-karat gold
+          - name: price_gram_20k
+            data_type: double precision
+            description: Price per gram for 20-karat gold
+          - name: price_gram_18k
+            data_type: double precision
+            description: Price per gram for 18-karat gold
+          - name: price_gram_16k
+            data_type: double precision
+            description: Price per gram for 16-karat gold
+          - name: price_gram_14k
+            data_type: double precision
+            description: Price per gram for 14-karat gold
+          - name: price_gram_10k
+            data_type: double precision
+            description: Price per gram for 10-karat gold
+          - name: create_at_bi
+            data_type: timestamp with time zone
+            description: Timestamp of data creation
         config:
           freshness:
             warn_after:
-              count: 12
+              count: 2
               period: hour
             error_after:
-              count: 24
+              count: 
               period: hour
           loaded_at_field: create_at_bi
