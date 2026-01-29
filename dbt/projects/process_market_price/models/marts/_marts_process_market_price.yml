@@ -27,7 +27,7 @@ models:
       - name: timestamp
         description: Timestamp converted from unix timestamp rounded to minute 0 each hour.
   - name: gold_price_hr
-    description: "price of btc per hour for last 24 hour"
+    description: "price of gold per hour for last 24 hour"
     columns:
       - name: price
         description: price of gold.
@@ -41,7 +41,7 @@ models:
     description: "price at last market close time and current price with calculated one-day-change percentage."
     columns:
       - name: close_time
-        description: "previous market close time."
+        description: "previous market close time Base on MSTG exchnage."
       - name: closetime_price
         description: "price at previous market close time."
       - name: price_timestamp
@@ -60,7 +60,7 @@ models:
     description: "price at last market close time and current price with calculated one-day-change percentage."
     columns:
       - name: open_time
-        description: "merket open time."
+        description: "merket open time. Use 0:00 UTC"
       - name: opentime_price
         description: "price at open time"
       - name: price_timestamp
@@ -75,3 +75,33 @@ models:
         description: "color of font in dashbaord"
       - name: bg_color
         description: "color of bg in dashboard"
+  - name: gold_price_1hr_change
+    description: "price change of gold for the last hour with calculated one-hour-change percentage."
+    columns:
+      - name: current_hr_price
+        data_type: double precision
+        description: "current price in the latest hour."
+
+      - name: current_hr_price_timestamp
+        data_type: timestamp without time zone
+        description: "timestamp of current hour price."
+
+      - name: prev_hr_price
+        data_type: double precision
+        description: "price from the previous hour."
+
+      - name: prev_hr_price_timestamp
+        data_type: timestamp without time zone
+        description: "timestamp of previous hour price."
+
+      - name: one-hr-change
+        data_type: numeric
+        description: "calculated percentage change of previous hour price compare to current hour price."
+
+      - name: font_color
+        data_type: text
+        description: "color of font in dashboard."
+
+      - name: bg_color
+        data_type: text
+        description: "color of background in dashboard."
