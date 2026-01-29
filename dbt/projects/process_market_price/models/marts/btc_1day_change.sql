@@ -41,4 +41,4 @@ SELECT *,
         WHEN "one-day-change" < 0 THEN '#FCE8E6'
         ELSE '#F1F3F4'
     END AS bg_color
-FROM (SELECT *,(current_price - opentime_price)/opentime_price * 100 as "one-day-change" FROM detail) one_daye_change
+FROM (SELECT *,((current_price - opentime_price)/opentime_price * 100)::NUMERIC(5,2) as "one-day-change" FROM detail) one_daye_change

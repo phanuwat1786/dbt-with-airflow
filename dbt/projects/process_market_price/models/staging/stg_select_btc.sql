@@ -2,4 +2,4 @@ WITH bitcoin AS (
     SELECT "USD", create_at_bi FROM {{ source("market_price","bitcoin") }}
 )
 
-SELECT 'btc' AS type, "USD" AS price, 'USD' AS currency, '/1 btc' AS unit, create_at_bi AT TIME ZONE 'Asia/Bangkok' as timestamp FROM bitcoin order by timestamp desc
+SELECT 'btc' AS type, "USD" AS price, 'USD' AS currency, '/1 btc' AS unit, create_at_bi AT TIME ZONE 'Asia/Bangkok' AS timestamp FROM bitcoin
