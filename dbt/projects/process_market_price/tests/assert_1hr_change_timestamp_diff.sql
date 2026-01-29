@@ -1,0 +1,1 @@
+SELECT * FROM {{ ref("gold_price_1hr_change") }} WHERE current_hr_price_timestamp - prev_hr_price_timestamp <> MAKE_TIME(1,0,0.00)
