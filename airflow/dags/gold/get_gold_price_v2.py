@@ -43,15 +43,15 @@ with DAG(
         http_hook = HttpHook(method= 'GET', http_conn_id= 'gold_price_api')
 
         
-        token_number = Variable.get("current_gold_api_number",default_var= 1)
+        token_number = int(Variable.get("current_gold_api_number",default_var= 1))
         while True:
-            try:
                 header = {
                     "x-access-token": Variable.get(key = f'gold_price_api_key_{token_number}'),
                     "Content-Type": "application/json",
                 }
 
-                response = http_hook.run(endpoint = '/XAU/USD', headers= header)
+                response = http_hook.run(endpoint = '/XAU/USD', headers= header,extra_options={'check_response': False})
+
                 if response.ok:
                     Variable.set(key = "current_gold_api_number",value = token_number)
                     return response.json()
@@ -65,9 +65,6 @@ with DAG(
                         continue
                 else:
                     response.raise_for_status()
-
-            except Exception as e:
-                raise e
 
     @task(
         outlets = [
