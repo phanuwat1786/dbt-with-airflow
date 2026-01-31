@@ -37,71 +37,112 @@ models:
         description: unit of this asset per price.
       - name: timestamp
         description: Timestamp converted from unix timestamp rounded to minute 0 each hour.
-  - name: gold_price_1day_change
-    description: "price at last market close time and current price with calculated one-day-change percentage."
+  - name: gold_price_day_and_hr_change
+    description: "price at last market close time and current price with calculated one-day-change and one-hour-change percentage for gold."
     columns:
       - name: close_time
-        description: "previous market close time Base on MSTG exchnage."
-      - name: closetime_price
-        description: "price at previous market close time."
-      - name: price_timestamp
-        description: "real time stamp of closetime_price."
-      - name: current_price
-        description: "current price."
-      - name: current_price_timestamp
-        description: "current price timestamp."
-      - name: one-day-change
-        description: "calculated percentage change of previous merket close price compare to current price."
-      - name: font_color
-        description: "color of font in dashbaord"
-      - name: bg_color
-        description: "color of bg in dashboard"
-  - name: btc_1day_change
-    description: "price at last market close time and current price with calculated one-day-change percentage."
-    columns:
-      - name: open_time
-        description: "merket open time. Use 0:00 UTC"
-      - name: opentime_price
-        description: "price at open time"
-      - name: price_timestamp
-        description: "real time stamp of opentime_price."
-      - name: current_price
-        description: "current price."
-      - name: current_price_timestamp
-        description: "current price timestamp."
-      - name: one-day-change
-        description: "calculated percentage change of open time price compare to current price."
-      - name: font_color
-        description: "color of font in dashbaord"
-      - name: bg_color
-        description: "color of bg in dashboard"
-  - name: gold_price_1hr_change
-    description: "price change of gold for the last hour with calculated one-hour-change percentage."
-    columns:
-      - name: current_hr_price
-        data_type: double precision
-        description: "current price in the latest hour."
-
-      - name: current_hr_price_timestamp
         data_type: timestamp without time zone
-        description: "timestamp of current hour price."
+        description: "market close time. Use 0:00 UTC"
+
+      - name: close_price
+        data_type: double precision
+        description: "price at close time"
+
+      - name: close_price_timestamp
+        data_type: timestamp without time zone
+        description: "real time stamp of close_price."
+
+      - name: current_price
+        data_type: double precision
+        description: "current price of gold."
+
+      - name: current_price_timestamp
+        data_type: timestamp without time zone
+        description: "current price timestamp."
 
       - name: prev_hr_price
         data_type: double precision
-        description: "price from the previous hour."
+        description: "price from one hour ago."
 
       - name: prev_hr_price_timestamp
         data_type: timestamp without time zone
-        description: "timestamp of previous hour price."
+        description: "timestamp of price from one hour ago."
+
+      - name: one-day-change
+        data_type: numeric
+        description: "calculated percentage change of close time price compare to current price."
 
       - name: one-hr-change
         data_type: numeric
-        description: "calculated percentage change of previous hour price compare to current hour price."
+        description: "calculated percentage change of previous hour price compare to current price."
 
-      - name: font_color
+      - name: day_font_color
         data_type: text
-        description: "color of font in dashboard."
+        description: "font color for daily change in dashboard"
 
-      - name: bg_color
+      - name: day_bg_color
         data_type: text
-        description: "color of background in dashboard."
+        description: "background color for daily change in dashboard"
+
+      - name: hr_font_color
+        data_type: text
+        description: "font color for hourly change in dashboard"
+
+      - name: hr_bg_color
+        data_type: text
+        description: "background color for hourly change in dashboard"
+
+  - name: btc_price_day_and_hr_change
+    description: "price at last market open time and current price with calculated one-day-change and one-hour-change percentage for bitcoin."
+    columns:
+      - name: open_time
+        data_type: timestamp without time zone
+        description: "market open time. Use 0:00 UTC"
+
+      - name: open_price
+        data_type: double precision
+        description: "price at open time"
+
+      - name: open_price_timestamp
+        data_type: timestamp without time zone
+        description: "real time stamp of open_price."
+
+      - name: current_price
+        data_type: double precision
+        description: "current price of bitcoin."
+
+      - name: current_price_timestamp
+        data_type: timestamp without time zone
+        description: "current price timestamp."
+
+      - name: prev_hr_price
+        data_type: double precision
+        description: "price from one hour ago."
+
+      - name: prev_hr_price_timestamp
+        data_type: timestamp without time zone
+        description: "timestamp of price from one hour ago."
+
+      - name: one-day-change
+        data_type: numeric
+        description: "calculated percentage change of open time price compare to current price."
+
+      - name: one-hr-change
+        data_type: numeric
+        description: "calculated percentage change of previous hour price compare to current price."
+
+      - name: day_font_color
+        data_type: text
+        description: "font color for daily change in dashboard"
+
+      - name: day_bg_color
+        data_type: text
+        description: "background color for daily change in dashboard"
+
+      - name: hr_font_color
+        data_type: text
+        description: "font color for hourly change in dashboard"
+
+      - name: hr_bg_color
+        data_type: text
+        description: "background color for hourly change in dashboard"
