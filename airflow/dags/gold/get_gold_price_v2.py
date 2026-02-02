@@ -44,18 +44,21 @@ with DAG(
 
         
         token_number = int(Variable.get("current_gold_api_number",default_var= 1))
+
         while True:
-                header = {
-                    "x-access-token": Variable.get(key = f'gold_price_api_key_{token_number}'),
-                    "Content-Type": "application/json",
-                }
+            header = {
+                "x-access-token": Variable.get(key = f'gold_price_api_key_{token_number}'),
+                "Content-Type": "application/json",
+            }
 
-                response = http_hook.run(endpoint = '/XAU/USD', headers= header,extra_options={'check_response': False})
+            response = http_hook.run(endpoint = '/XAU/USD', headers= header,extra_options={'check_response': False})
 
-                if response.ok:
-                    Variable.set(key = "current_gold_api_number",value = token_number)
-                    return response.json()
-                elif response.status_code == 403 and 'Monthly API quota exceeded' in response.text :
+            if response.ok:
+                Variable.set(key = "current_gold_api_number",value = token_number)
+                return response.json()
+            else:
+                logger.info(f'response : {response.text}')
+                if response.status_code == 403 and 'Monthly API quota exceeded' in response.text :
                     if token_number == 8:
                         logger.error("last api-key out of quota.")
                         response.raise_for_status()
