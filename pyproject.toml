@@ -16,5 +16,9 @@ dependencies = [
     "google-auth>=2.47.0",
     "gspread-pandas>=3.3.0",
     "ipykernel>=7.1.0",
+    "notify",
     "pandas>=2.3.3",
 ]
+
+[tool.uv.sources]
+notify = { git = "https://github.com/phanuwat1786/notify.git" }

@@ -1,7 +1,7 @@
 FROM apache/airflow:2.10.5
 
 USER root
-RUN sudo apt-get update && sudo apt-get install -y iputils-ping
+RUN sudo apt-get update && sudo apt-get install -y iputils-ping && apt-get install -y --no-install-recommends git && sudo apt-get clean
 
 USER airflow
 

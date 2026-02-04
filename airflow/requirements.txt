@@ -5,3 +5,4 @@ apache-airflow-providers-docker==4.4.5
 docker==7.1.0
 google-auth==2.47.0
 gspread-pandas==3.3.0
+git+https://github.com/phanuwat1786/notify.git
