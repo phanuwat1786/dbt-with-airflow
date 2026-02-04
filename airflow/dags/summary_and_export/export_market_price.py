@@ -43,8 +43,12 @@ with DAG(
             context = get_current_context()
 
             context['table_name'] = table_name
-            context['ti'].task.inlets = [DatasetDH(platform= "postgres",name = f"merket_price.fact.{table_name}",env = "PROD")]
+
+            ti = context['ti']
             
+            t_name_list = [ item.get('table_name') for item in ti.xcom_pull(task_ids= 'get_export_list') ]
+            context['ti'].task.inlets = [DatasetDH(platform= "postgres",name = f"market_price.fact.{t_name}",env = "PROD") for t_name in t_name_list ]  
+            logger.info(ti.task.inlets)
             pg_hook = PostgresHook(
                 postgres_conn_id = 'pg_market_price'
             )
