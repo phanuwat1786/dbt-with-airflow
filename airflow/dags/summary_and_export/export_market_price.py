@@ -12,6 +12,7 @@ from datahub_airflow_plugin.entities import Dataset as DatasetDH
 import logging
 from notify.discord import DiscordNotify
 from discord_webhook import DiscordEmbed
+from airflow.exceptions import AirflowSkipException
 
 with DAG(
     dag_id = 'export_ggs_market_price',
@@ -40,6 +41,7 @@ with DAG(
         def get_data_to_export(export_table: dict):
 
             table_name = export_table.get('table_name')
+            sheet_name = export_table.get('sheet_name')
             context = get_current_context()
 
             context['table_name'] = table_name
@@ -58,7 +60,9 @@ with DAG(
                 con = pg_hook.get_sqlalchemy_engine()
             )
 
-            return df
+            return { "table_name" : table_name,
+                     "sheet_name" : sheet_name,
+                     "df" : df }
         
         @task(
             map_index_template = "{{ worksheet_name }}",
@@ -66,9 +70,10 @@ with DAG(
                   DatasetDH(platform="GoogleSheet",name = "Google Sheet 'MarketPrice'")
               ]
             )
-        def export_to_ggs(export_table: dict,data):
+        def export_to_ggs(data:dict):
 
-            worksheet_name = export_table.get('sheet_name')
+            worksheet_name = data.get('sheet_name')
+            df = data.get("df")
             context = get_current_context()
             context["worksheet_name"] = worksheet_name
 
@@ -80,40 +85,32 @@ with DAG(
             sheet_name = 'MarketPrice'
             spread = Spread(spread = sheet_name, creds= credential )
             spread.open_sheet(sheet = worksheet_name, create= True )
-            spread.df_to_sheet(data, replace=True, add_filter= False )
-
-        @task.short_circuit(map_index_template = "{{ worksheet_name }}")
-        def check_table_to_notify(export_table:dict):
-            worksheet_name = export_table.get('sheet_name')
-            context = get_current_context()
-            context["worksheet_name"] = worksheet_name
-
-            if export_table.get('table_name') in [ item.get('table_name') for item in Variable.get('market_price_discord_table_condition',deserialize_json= True) ]:
-                return True
-            else:
-                return False
+            spread.df_to_sheet(df, replace=True, add_filter= False )
             
-        @task(map_index_template = "{{ worksheet_name }}")
-        def send_message_to_discord(export_table:dict,data):
-            worksheet_name = export_table.get('sheet_name')
-            context = get_current_context()
-            context["worksheet_name"] = worksheet_name
+        @task(map_index_template = "{{ table_name }}")
+        def send_message_to_discord(data:dict):
 
+            table_name = data.get('table_name')
+            df = data.get('df')
+            context = get_current_context()
+            context["table_name"] = table_name
+            if table_name not in [ item.get('table_name') for item in Variable.get('market_price_discord_table_condition',deserialize_json= True) ]:
+                raise AirflowSkipException(f"skipping {table_name}.")
+            
             wh = DiscordNotify(webhook=Variable.get('phanu_discord_webhook'),username= 'GOLD PRICE INFO')
-            embed = DiscordEmbed(title = 'Hourly Gold Price Report', color = data['hr_font_color'].iloc[0].replace('#',''), url = Variable.get('market price dashboard link'))
-            embed.add_embed_field(name = 'Price now', value= f'$ {data['current_price'].iloc[0]} USD')
-            embed.add_embed_field(name = '1hr-change', value = f'{data['one-day-change'].iloc[0]} %')
-            embed.add_embed_field(name = '1day-change', value = f'{data['one-hr-change'].iloc[0]} %')
+            embed = DiscordEmbed(title = 'Hourly Gold Price Report', color = df['hr_font_color'].iloc[0].replace('#',''), url = Variable.get('market price dashboard link'))
+            embed.add_embed_field(name = 'Price now', value= f'$ {df['current_price'].iloc[0]} USD')
+            embed.add_embed_field(name = '1hr-change', value = f'{df['one-hr-change'].iloc[0]} %')
+            embed.add_embed_field(name = '1day-change', value = f'{df['one-day-change'].iloc[0]} %')
             embed.set_timestamp()
 
             wh.send_embeded(embed = embed, extra_content= f'<@{Variable.get(key ='phanu_discord_user_id')}>')
 
-        t_get_data_to_export = get_data_to_export(export_table)
-        t_export_to_ggs = export_to_ggs(export_table,t_get_data_to_export)
-        t_check_table_to_notify = check_table_to_notify(export_table)
-        t_send_nmessage_to_discord = send_message_to_discord(export_table,t_get_data_to_export)
-        
-        t_get_data_to_export >> t_export_to_ggs >> t_check_table_to_notify >> t_send_nmessage_to_discord
+        t_get_data_to_export = get_data_to_export(export_table= export_table)
+        t_export_to_ggs = export_to_ggs(data= t_get_data_to_export)
+        t_send_message_to_discord = send_message_to_discord(data = t_get_data_to_export)
+
+        t_get_data_to_export >> [t_export_to_ggs,t_send_message_to_discord] 
 
     t_get_export_list = get_export_list()
     tg_export = export.expand(export_table = t_get_export_list)
