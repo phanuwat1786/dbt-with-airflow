@@ -15,6 +15,13 @@ models:
         description: unit of this asset per price.
       - name: timestamp
         description: Timestamp converted from unix timestamp.
+    meta:
+      queries:
+        - name: "export"
+          description : "query use to export to googlesheet"
+          sql: |
+            SELECT * FROM {{ ref('btc_and_gold_price') }}
+
   - name: btc_price_hr
     description: "price of btc per hour for last 24 hour"
     columns:
@@ -26,6 +33,13 @@ models:
         description: unit of this asset per price.
       - name: timestamp
         description: Timestamp converted from unix timestamp rounded to minute 0 each hour.
+    meta:
+      queries:
+        - name: "export"
+          description : "query use to export to googlesheet"
+          sql: |
+            SELECT * FROM {{ ref('btc_price_hr') }}
+
   - name: gold_price_hr
     description: "price of gold per hour for last 24 hour"
     columns:
@@ -37,6 +51,13 @@ models:
         description: unit of this asset per price.
       - name: timestamp
         description: Timestamp converted from unix timestamp rounded to minute 0 each hour.
+    meta:
+      queries:
+        - name: "export"
+          description : "query use to export to googlesheet"
+          sql: |
+            SELECT * FROM {{ ref('gold_price_hr') }}
+
   - name: gold_price_day_and_hr_change
     description: "price at last market close time and current price with calculated one-day-change and one-hour-change percentage for gold."
     columns:
@@ -91,6 +112,12 @@ models:
       - name: hr_bg_color
         data_type: text
         description: "background color for hourly change in dashboard"
+    meta:
+      queries:
+        - name: "export"
+          description : "query use to export to googlesheet"
+          sql: |
+            SELECT * FROM {{ ref('gold_price_day_and_hr_change') }}
 
   - name: btc_price_day_and_hr_change
     description: "price at last market open time and current price with calculated one-day-change and one-hour-change percentage for bitcoin."
@@ -146,3 +173,9 @@ models:
       - name: hr_bg_color
         data_type: text
         description: "background color for hourly change in dashboard"
+    meta:
+      queries:
+        - name: "export"
+          description : "query use to export to googlesheet"
+          sql: |
+            SELECT * FROM {{ ref('btc_price_day_and_hr_change') }}
