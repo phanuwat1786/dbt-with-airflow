@@ -4,6 +4,10 @@ default:
 myps:
     docker ps --format "table {{{{.Names}}\t{{{{.Status}}\t{{{{.Ports}}"
 
+os := if os() == "windows" {"Scripts"} else {"bin"}
+activate :
+    echo "source $(pwd)/.venv/{{os}}/activate"
+
 create-docker-network:
     - docker network create -d bridge pipeline-network
 
@@ -50,5 +54,10 @@ up-all: up-socket-proxy up-airflow up-pg up-minio up-datahub
 
 down-all: down-socket-proxy down-airflow down-pg down-minio down-datahub
 
+
 env:
     export $(grep -v '^#' .env | xargs)
+
+[working-directory: 'dbt/projects/process_market_price/']
+dbt-gen-model model:
+    dbt run-operation generate_model_yaml --args '{"model_names": ["{{model}}"]}'
