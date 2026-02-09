@@ -24,6 +24,9 @@ source:
         operation: add_tag
         config:
           tag: "BA_{{ $match }}"
+    entities_enabled:
+      sources: No
+    skip_sources_in_lineage: true
 
 sink:
   type: datahub-rest
