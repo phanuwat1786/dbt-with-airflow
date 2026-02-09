@@ -10,6 +10,13 @@ from gspread_pandas import Spread
 from google.oauth2 import service_account
 from airflow.datasets import Dataset
 
+doc_md = """
+    ### run market_price dbt project
+    summary : run dbt market_price dbt project after upstream dataset was updated.
+    
+    part of market_price project.
+"""
+
 with DAG(
     dag_id = 'run_dbt_market_price',
     start_date= pendulum.parse('2026-01-23',tz = 'Asia/Bangkok'),
@@ -17,6 +24,7 @@ with DAG(
     catchup=False,
     max_active_runs= 1,
     tags=['MarketPrice','DBT'],
+    doc_md = doc_md,
     default_args= {
         'owner' : "Phanu"
     }

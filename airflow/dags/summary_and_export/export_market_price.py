@@ -14,6 +14,13 @@ from notify.discord import DiscordNotify
 from discord_webhook import DiscordEmbed
 from airflow.exceptions import AirflowSkipException
 
+doc_md = """
+    ### export Market price data dag
+    summary : export fact table to googlsheet as a data source for looker studio dashboard.
+    
+    part of market_price project.
+"""
+
 with DAG(
     dag_id = 'export_ggs_market_price',
     start_date= pendulum.parse('2026-01-23',tz = 'Asia/Bangkok'),
@@ -21,6 +28,7 @@ with DAG(
     catchup=False,
     max_active_runs= 1,
     tags=['MarketPrice'],
+    doc_md = doc_md,
     default_args= {
         'owner' : "Phanu"
     }

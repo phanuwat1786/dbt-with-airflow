@@ -12,6 +12,13 @@ from airflow.providers.http.hooks.http import HttpHook
 from airflow.models import Variable
 import logging
 
+doc_md = """
+    ### gold price dag
+    summary : get gold price from [goldapi.io](https://www.goldapi.io/dashboard) every hour and save to database.
+    
+    part of market_price project.
+"""
+
 with DAG(
     dag_id = 'get_gold_price_v2',
     start_date= pendulum.parse('2026-01-26',tz = 'Asia/Bangkok'),
@@ -21,7 +28,8 @@ with DAG(
     tags=['MarketPrice'],
     default_args= {
         'owner' : "Phanu"
-    }
+    },
+    doc_md = doc_md
 ):
     
     logger = logging.getLogger(__name__)

@@ -8,6 +8,13 @@ from datahub_airflow_plugin.entities import Dataset, Urn
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 
+doc_md = """
+    ### get exchnage rate dag
+    summary : get exchange rate from [openexchange](https://openexchangerates.org/login?code=purple&redirect_to=account/usage) every hour and save to minio.  
+    
+    part of market_price project.
+"""
+
 with DAG(
     dag_id = 'get_exchange_rate',
     start_date= pendulum.parse('2025-10-14'),
@@ -17,7 +24,8 @@ with DAG(
     tags=['MarketPrice'],
     default_args= {
         'owner' : "Phanu"
-    }
+    },
+    doc_md = doc_md
 ) as dag:
 
     def check_status(response):

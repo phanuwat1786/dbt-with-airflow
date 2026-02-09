@@ -12,6 +12,12 @@ from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.datasets import Dataset
 from datahub_airflow_plugin.entities import Dataset as DatasetDH, Urn
 
+doc_md = """
+    ### bit coin price dag
+    summary : get bit coin price from [coinDesk.io](https://developers.coindesk.com/documentation/legacy/Price/SingleSymbolPriceEndpoint/) and save to database every hour.  
+
+    part of matket price project.
+    """
 
 with DAG(
     dag_id='bitcoin_price',
@@ -22,7 +28,8 @@ with DAG(
     tags=['MarketPrice'],
     default_args= {
         'owner' : "Phanu"
-    }
+    },
+    doc_md = doc_md
 ) as dag:
 
     t1 = HttpOperator(

@@ -4,17 +4,27 @@ import pendulum
 from airflow.providers.docker.operators.docker import DockerOperator
 from docker.types import Mount
 from airflow.datasets import Dataset
+
+doc_md = """
+    ### dag datahub ingestion for dbt 
+
+    summary : datahub ingestion for market_price dbt projects.
+"""
+
 with DAG(
     dag_id= 'datahub_ingestion_dbt_market_price',
     start_date= pendulum.parse('2026-01-21',tz = 'Asia/Bangkok'),
     schedule= [Dataset(uri = 'x-market-price://ingestion')],
     catchup= False,
     tags= [
-        'datahub_ingestion','dbt'
+        'datahub_ingestion',
+        'dbt',
+        'MarketPrice'
     ],
     default_args={
         "owner" : "Phanu"
-    }
+    },
+    doc_md = doc_md
 ) as dag :
     
     run_ingestion = DockerOperator(
