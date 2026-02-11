@@ -8,7 +8,8 @@ create-docker-network:
     - docker network create -d bridge pipeline-network
 
 up-airflow: create-docker-network
-    - docker compose -f airflow/docker-compose.yml up -d --build
+    - docker compose -f airflow/docker-compose.yml build
+    - docker compose -f airflow/docker-compose.yml up -d
 
 down-airflow:
     - docker compose -f airflow/docker-compose.yml down
