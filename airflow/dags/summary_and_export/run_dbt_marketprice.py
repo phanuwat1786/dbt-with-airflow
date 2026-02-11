@@ -9,7 +9,7 @@ from airflow.models import Variable
 from gspread_pandas import Spread
 from google.oauth2 import service_account
 from airflow.datasets import Dataset
-
+from notify.discord import task_fail_callback
 doc_md = """
     ### run market_price dbt project
     summary : run dbt market_price dbt project after upstream dataset was updated.
@@ -26,7 +26,8 @@ with DAG(
     tags=['MarketPrice','DBT'],
     doc_md = doc_md,
     default_args= {
-        'owner' : "Phanu"
+        'owner' : "Phanu",
+        "on_failure_callback" : lambda context : task_fail_callback(webhook_variable_key= "on_fail_webhook",context=context)
     }
 ) as dag :
 

@@ -7,6 +7,8 @@ from airflow.providers.amazon.aws.operators.s3 import S3CreateBucketOperator
 from datahub_airflow_plugin.entities import Dataset, Urn
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
+from notify.discord import task_fail_callback
+
 
 doc_md = """
     ### get exchnage rate dag
@@ -23,7 +25,8 @@ with DAG(
     max_active_runs = 1,
     tags=['MarketPrice'],
     default_args= {
-        'owner' : "Phanu"
+        'owner' : "Phanu",
+        "on_failure_callback" : lambda context : task_fail_callback(webhook_variable_key= "on_fail_webhook",context=context)
     },
     doc_md = doc_md
 ) as dag:

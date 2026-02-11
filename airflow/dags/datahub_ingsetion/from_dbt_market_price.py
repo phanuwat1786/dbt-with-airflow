@@ -4,7 +4,7 @@ import pendulum
 from airflow.providers.docker.operators.docker import DockerOperator
 from docker.types import Mount
 from airflow.datasets import Dataset
-
+from notify.discord import task_fail_callback
 doc_md = """
     ### dag datahub ingestion for dbt 
 
@@ -22,7 +22,8 @@ with DAG(
         'MarketPrice'
     ],
     default_args={
-        "owner" : "Phanu"
+        "owner" : "Phanu",
+        "on_failure_callback" : lambda context : task_fail_callback(webhook_variable_key= "on_fail_webhook",context=context)
     },
     doc_md = doc_md
 ) as dag :

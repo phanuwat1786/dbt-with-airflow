@@ -11,7 +11,7 @@ from airflow.models.taskinstance import TaskInstance
 from airflow.providers.http.hooks.http import HttpHook
 from airflow.models import Variable
 import logging
-
+from notify.discord import task_fail_callback
 doc_md = """
     ### gold price dag
     summary : get gold price from [goldapi.io](https://www.goldapi.io/dashboard) every hour and save to database.
@@ -27,7 +27,8 @@ with DAG(
     max_active_runs = 1,
     tags=['MarketPrice'],
     default_args= {
-        'owner' : "Phanu"
+        'owner' : "Phanu",
+        "on_failure_callback" : lambda context : task_fail_callback(webhook_variable_key= "on_fail_webhook",context=context)
     },
     doc_md = doc_md
 ):

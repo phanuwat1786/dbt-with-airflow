@@ -13,7 +13,7 @@ import logging
 from notify.discord import DiscordNotify
 from discord_webhook import DiscordEmbed
 from airflow.exceptions import AirflowSkipException
-
+from notify.discord import task_fail_callback
 doc_md = """
     ### export Market price data dag
     summary : export fact table to googlsheet as a data source for looker studio dashboard.
@@ -30,7 +30,8 @@ with DAG(
     tags=['MarketPrice'],
     doc_md = doc_md,
     default_args= {
-        'owner' : "Phanu"
+        'owner' : "Phanu",
+        "on_failure_callback" : lambda context : task_fail_callback(webhook_variable_key= "on_fail_webhook",context=context)
     }
 ) as dag :
 

@@ -11,6 +11,8 @@ import pendulum
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.datasets import Dataset
 from datahub_airflow_plugin.entities import Dataset as DatasetDH, Urn
+from notify.discord import task_fail_callback
+
 
 doc_md = """
     ### bit coin price dag
@@ -27,7 +29,8 @@ with DAG(
     max_active_runs = 1,
     tags=['MarketPrice'],
     default_args= {
-        'owner' : "Phanu"
+        'owner' : "Phanu",
+        "on_failure_callback" : lambda context : task_fail_callback(webhook_variable_key= "on_fail_webhook",context=context)
     },
     doc_md = doc_md
 ) as dag:
