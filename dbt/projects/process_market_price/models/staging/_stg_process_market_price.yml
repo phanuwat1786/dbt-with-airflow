@@ -2,20 +2,20 @@ models:
   - name: stg_convert_gold_timestamp
     description: Convert unix timestamp to timestamp and rearrange column. #model level des.
     columns:
-    - name: type
-      description: declear type of asset.
-    - name: price
-      description: price of btc
-      data_tests:
-        - not_null
-    - name: currency
-      description: currency of price.
-    - name: unit
-      description: unit of this asset perprice.
-    - name: timestamp
-      description: Timestamp converted from unix timestamp. #column level des.
-      data_tests:
-        - not_null
+      - name: type
+        description: declear type of asset.
+      - name: price
+        description: price of btc
+        data_tests:
+          - not_null
+      - name: currency
+        description: currency of price.
+      - name: unit
+        description: unit of this asset perprice.
+      - name: timestamp
+        description: Timestamp converted from unix timestamp. #column level des.
+        data_tests:
+          - not_null
   - name: stg_select_btc
     description: rearrange column.
     columns:
@@ -32,5 +32,4 @@ models:
       - name: timestamp
         description: "{{ doc('btc_timestamp') }}"
         data_tests:
-          - unique
-          - not_null 
+          - not_null
