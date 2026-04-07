@@ -8,7 +8,7 @@ from datahub_airflow_plugin.entities import Dataset, Urn
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from notify.discord import task_fail_callback
-
+from airflow.datasets.metadata import Metadata
 
 doc_md = """
     ### get exchnage rate dag
@@ -17,10 +17,12 @@ doc_md = """
     part of market_price project.
 """
 
+exchange_dataset = Dataset(uri = 'x-market-price://exchange_rate')
+
 with DAG(
     dag_id = 'get_exchange_rate',
     start_date= pendulum.parse('2025-10-14'),
-    schedule= '5 * * * *',
+    schedule= '0 * * * *',
     catchup = False,
     max_active_runs = 1,
     tags=['MarketPrice'],
@@ -62,7 +64,9 @@ with DAG(
         do_xcom_push = True,
     )
 
-    @task()
+    @task(
+        outlets=[exchange_dataset]
+    )
     def save_exchange_rate():
         import pandas as pd
         import io
@@ -71,6 +75,8 @@ with DAG(
         df = pd.DataFrame([ti.xcom_pull(task_ids='get_exchange_rate_api')])
         df['create_at_bi'] = pendulum.now().to_datetime_string()
         hook = S3Hook(aws_conn_id = 'minio')
+
+        file_name = f"exchange_rate_{pendulum.now().to_datetime_string().replace(' ','_')}.parquet"
         with io.BytesIO() as buffer:
                 buffer.write(
                     bytes(
@@ -79,8 +85,10 @@ with DAG(
                 )
                 hook.load_bytes(buffer.getvalue(),
                                 bucket_name="exchange-rate",
-                                key=f"exchange_rate_{pendulum.now().to_datetime_string()}.parquet",
+                                key=file_name,
                                 replace=True)
+        
+        yield Metadata(exchange_dataset, {"file_name": file_name})
 
     t3 = save_exchange_rate()
     [t1,t2] >> t3
