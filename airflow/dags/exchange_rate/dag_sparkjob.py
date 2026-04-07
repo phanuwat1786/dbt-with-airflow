@@ -15,10 +15,10 @@ doc_md = '''
           summary : dag summary.
 '''
 
-exchange_dataset = Dataset(uri = 'x-market-price://exchange_rate')
+exchange_dataset = Dataset('x-market-price://exchange_rate')
 
 with DAG (
-    dag_id = 'test_exchnage_rate_sparkjob',
+    dag_id = 'test_exchange_rate_sparkjob',
     start_date = pendulum.parse('2026-04-07',tz = 'Asia/Bangkok'),
     schedule = [exchange_dataset],
     catchup = False,

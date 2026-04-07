@@ -17,7 +17,7 @@ doc_md = """
     part of market_price project.
 """
 
-exchange_dataset = Dataset(uri = 'x-market-price://exchange_rate')
+exchange_dataset = Dataset('x-market-price://exchange_rate')
 
 with DAG(
     dag_id = 'get_exchange_rate',
