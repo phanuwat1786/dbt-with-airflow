@@ -4,11 +4,12 @@ import pendulum
 from airflow.providers.http.operators.http import HttpOperator
 from airflow.operators.python import get_current_context
 from airflow.providers.amazon.aws.operators.s3 import S3CreateBucketOperator
-from datahub_airflow_plugin.entities import Dataset, Urn
+from datahub_airflow_plugin.entities import Dataset as DatasetDH
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from notify.discord import task_fail_callback
 from airflow.datasets.metadata import Metadata
+from airflow.datasets import Dataset
 
 doc_md = """
     ### get exchnage rate dag
@@ -17,7 +18,7 @@ doc_md = """
     part of market_price project.
 """
 
-exchange_dataset = Dataset('x-market-price://exchange_rate')
+exchange_dataset = Dataset(uri = 'x-market-price://exchange_rate')
 
 with DAG(
     dag_id = 'get_exchange_rate',

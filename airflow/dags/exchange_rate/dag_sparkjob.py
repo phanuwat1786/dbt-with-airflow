@@ -15,7 +15,7 @@ doc_md = '''
           summary : dag summary.
 '''
 
-exchange_dataset = Dataset('x-market-price://exchange_rate')
+exchange_dataset = Dataset(uri = 'x-market-price://exchange_rate')
 
 with DAG (
     dag_id = 'test_exchange_rate_sparkjob',
