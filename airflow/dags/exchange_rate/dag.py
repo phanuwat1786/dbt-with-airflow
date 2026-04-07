@@ -50,7 +50,7 @@ with DAG(
     t2 = HttpOperator(
         task_id = 'get_exchange_rate_api',
         inlets = [
-            Dataset(platform = 'RestAPI', name = 'openexchangerates API')
+            DatasetDH(platform = 'RestAPI', name = 'openexchangerates API')
         ],
         http_conn_id= 'exchange_rate_api',
         endpoint='/latest.json',
