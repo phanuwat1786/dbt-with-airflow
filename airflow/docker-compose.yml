@@ -76,8 +76,8 @@ x-airflow-common:
     - pipeline-network
   depends_on:
     &airflow-common-depends-on
-    redis:
-      condition: service_healthy
+    # redis:
+    #   condition: service_healthy
     postgres-airflow:
       condition: service_healthy
   extra_hosts:
