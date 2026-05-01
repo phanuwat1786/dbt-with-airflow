@@ -7,8 +7,8 @@ services:
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       - MINIO_DOMAIN=minio
     ports:
-      - 9001:9001
-      - 9000:9000
+      - 9101:9001
+      - 9100:9000
     networks:
       - pipeline-network
     volumes:
